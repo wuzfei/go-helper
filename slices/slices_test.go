@@ -11,15 +11,22 @@ func Test(t *testing.T) {
 		*res = *res + item
 	})
 	fmt.Println(r1)
-	r2 := Reduce(arr, func(res *[]int, item int, k int) {
-		*res = append(*res, item*item)
+	r2 := Reduce(arr, func(res *map[int]int, item int, k int) {
+		if *res == nil {
+			*res = make(map[int]int)
+		}
+		(*res)[item] = item
 	})
 	fmt.Println(r2)
+	r3 := Reduce(arr, func(res *[]int, item int, k int) {
+		*res = append(*res, item*item)
+	})
+	fmt.Println(r3)
 	type Tage struct {
 		age int
 	}
-	r3 := Reduce(arr, func(res *Tage, item int, k int) {
+	r4 := Reduce(arr, func(res *Tage, item int, k int) {
 		res.age += item
 	})
-	fmt.Println(r3)
+	fmt.Println(r4)
 }

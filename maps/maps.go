@@ -98,7 +98,7 @@ func ToQueryString[M ~map[K]V, K, V ~string](m M) string {
 }
 
 // ToStringFunc 将一个map转成key->value形式的拼接字符串
-func ToStringFunc[M ~map[K]V, K, V ~string](m M, sep string, fn func(k K, v V) string) string {
+func ToStringFunc[M ~map[K]V, K comparable, V any](m M, sep string, fn func(k K, v V) string) string {
 	l := len(m)
 	if l == 0 {
 		return ""

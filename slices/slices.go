@@ -257,11 +257,11 @@ func Foreach[E any](s []E, f func(e E, k int) error) error {
 }
 
 func Reduce[E any, T any](s []E, f func(d *T, v E, k int)) T {
-	var res T
+	res := new(T)
 	for k, v := range s {
-		f(&res, v, k)
+		f(res, v, k)
 	}
-	return res
+	return *res
 }
 
 // Unique 切片过滤重复
