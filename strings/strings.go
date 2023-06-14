@@ -29,11 +29,11 @@ func Query2MapString(str string) map[string]string {
 
 // Kv2MapFunc 将 k1:v1;k2:v2 字符串转成map
 func Kv2MapFunc[K comparable, V any](str string, sep string, fn func(s string) (K, V, error)) map[K]V {
+	res := make(map[K]V, 0)
 	if str == "" {
-		return make(map[K]V)
+		return res
 	}
 	r := strings.Split(str, sep)
-	res := make(map[K]V, 0)
 	for _, val := range r {
 		k, v, err := fn(val)
 		if err == nil {

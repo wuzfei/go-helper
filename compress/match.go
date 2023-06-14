@@ -24,13 +24,13 @@ func fileMatch(regs []string, re bool) Match {
 	if len(regs) == 0 {
 		return DefaultMatch
 	}
-	for k, v := range regs {
-		regs[k] = strings.TrimPrefix(v, pSep)
+	for i := range regs {
+		regs[i] = strings.TrimPrefix(regs[i], pSep)
 	}
 	return func(path string) bool {
 		ok := false
-		for _, v := range regs {
-			ok, _ = filepath.Match(v, path)
+		for i := range regs {
+			ok, _ = filepath.Match(regs[i], path)
 			if ok {
 				break
 			}

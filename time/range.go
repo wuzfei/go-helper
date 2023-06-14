@@ -34,8 +34,7 @@ func NewRange(st time.Time, et time.Time) (Range, error) {
 }
 
 func NewRangeFromString(st, et, layout string) (_ Range, err error) {
-	var t1 time.Time
-	var t2 time.Time
+	var t1, t2 time.Time
 	t1, err = time.Parse(layout, st)
 	if err != nil {
 		return

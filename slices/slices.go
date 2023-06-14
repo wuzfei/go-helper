@@ -153,20 +153,6 @@ func Split[S ~[]E, E any](s S, n int64) []S {
 	return res
 }
 
-//
-//func Implode[E constraints.Ordered](s []E, sep string) string {
-//	if len(s) == 0 {
-//		return ""
-//	}
-//	str := ""
-//	_sep := ""
-//	for _, v := range s {
-//		str = fmt.Sprintf("%s%s%v", str, _sep, v)
-//		_sep = sep
-//	}
-//	return str
-//}
-
 // Intersect 查交集,会去重
 func Intersect[S ~[]E, E comparable](s1, s2 S) S {
 	l1 := len(s1)
@@ -185,12 +171,17 @@ func Intersect[S ~[]E, E comparable](s1, s2 S) S {
 			mp[s1[i]] = '1'
 		}
 	}
+	uMp := make(map[E]byte, len(mp))
 	for i := range s2 {
 		if _, ok := mp[s2[i]]; ok {
-			ret = append(ret, s2[i])
+			//排重
+			if _, _ok := uMp[s2[i]]; !_ok {
+				uMp[s2[i]] = '1'
+				ret = append(ret, s2[i])
+			}
 		}
 	}
-	return Unique(ret)
+	return ret
 }
 
 // Union 并集,会去重
@@ -200,7 +191,7 @@ func Union[S ~[]E, E comparable](s1, s2 S) S {
 	for i := range s1 {
 		if _, ok := mp[s1[i]]; !ok {
 			mp[s1[i]] = '1'
-			ret = append(ret)
+			ret = append(ret, s1[i])
 		}
 	}
 	for i := range s2 {
@@ -214,28 +205,31 @@ func Union[S ~[]E, E comparable](s1, s2 S) S {
 
 // Difference 差集,会去重
 func Difference[S ~[]E, E comparable](s1, s2 S) S {
-	l1 := len(s1)
-	l2 := len(s2)
-	if l1 == 0 || l2 == 0 {
-		return make(S, 0)
-	}
-	if l1 > l2 {
+	if len(s1) > len(s2) {
 		s1, s2 = s2, s1
-		l1, l2 = l2, l1
 	}
-	ret := make(S, 0, l2+l1)
+	ret := make(S, 0, len(s1)+len(s2))
 	mp := make(map[E]byte)
 	for i := range s1 {
 		if _, ok := mp[s1[i]]; !ok {
 			mp[s1[i]] = '1'
+			ret = append(ret, s1[i])
 		}
 	}
+	diffMp := make(map[E]byte)
 	for i := range s2 {
-		if _, ok := mp[s2[i]]; !ok {
-			ret = append(ret, s2[i])
+		if _, ok := diffMp[s2[i]]; ok {
+			continue
 		}
+		diffMp[s2[i]] = '1'
+		if _, ok := mp[s2[i]]; ok {
+			idx := Index(ret, s2[i])
+			ret = append(ret[:idx], ret[idx+1:]...)
+			continue
+		}
+		ret = append(ret, s2[i])
 	}
-	return Unique(ret)
+	return Clip(ret)
 }
 
 // Map 遍历处理
