@@ -8,11 +8,11 @@ import (
 func TestBetweenN(t *testing.T) {
 	n1 := 10
 	n2 := 20
-	fmt.Println(BetweenN(n1, n2, 3))
+	fmt.Println(IntN(n1, n2, 3))
 }
 
 func TestBetween(t *testing.T) {
 	n1 := 10
 	n2 := 20
-	fmt.Println(Between(n1, n2))
+	fmt.Println(Int(n1, n2))
 }

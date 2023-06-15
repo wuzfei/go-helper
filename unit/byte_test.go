@@ -5,8 +5,8 @@ import (
 	"time"
 )
 
-var num = uint64(1024)
-var num2 = uint64(2000000)
+var num = int64(1024)
+var num2 = int64(2000000)
 
 func TestByteFormat(t *testing.T) {
 	s := ByteFormat(num, 3)

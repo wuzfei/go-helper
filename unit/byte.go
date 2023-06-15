@@ -7,7 +7,7 @@ import (
 )
 
 // ByteFormat 将byte转成带单位的字面量
-func ByteFormat(n uint64, precision uint8) string {
+func ByteFormat(n int64, precision uint8) string {
 	fs := [6]string{"B", "KB", "MB", "GB", "TB", "PB"}
 	r := float64(n)
 	u := fs[0]
@@ -22,7 +22,7 @@ func ByteFormat(n uint64, precision uint8) string {
 }
 
 // NetworkSpeed 将byte单位带宽，转成带单位的字面量
-func NetworkSpeed(size uint64, useTime time.Duration, precision uint8) string {
+func NetworkSpeed(size int64, useTime time.Duration, precision uint8) string {
 	fs := [4]string{"bps", "Kbps", "Mbps", "Gbps"}
 	r := float64(size) * 8 / useTime.Seconds()
 	u := fs[0]
